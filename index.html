@@ -437,4 +437,14 @@ document.getElementById('nlForm').addEventListener('submit', function(e) {
     body:JSON.stringify({email:email})
   }).then(function(r) {
     if (r.ok) {
-      ok
+      ok.classList.add('show');
+      document.getElementById('nlEmail').value = '';
+    }
+  }).catch(function() {
+    ok.textContent = 'Fehler — bitte per E-Mail melden.';
+    ok.classList.add('show');
+  });
+});
+</script>
+</body>
+</html>
