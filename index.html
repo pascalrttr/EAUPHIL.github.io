@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eauphil — Modern Jazz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Variables ── */
+    :root {
+      --cyan:     #7DD4CF;
+      --cyan-dim: #3a7f7c;
+      --bx:       #8A1F2E;
+      --bx-light: #c45062;
+      --pink:     #C4858F;
+      --dark:     #080808;
+      --dark2:    #111111;
+      --dark3:    #1a1a1a;
+      --off:      #e8e0d8;
+      --muted:    rgba(232,224,216,0.45);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--dark);
+      color: var(--off);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; }
+
+    /* ── Cursor ── */
+    body { cursor: crosshair; }
+    a, button { cursor: crosshair; }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.35;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      mix-blend-mode: normal;
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.85) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-transform: lowercase;
+      position: relative;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      position: relative;
+    }
+    .nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem 5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--bx-light);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 10vw, 9rem);
+      font-weight: 300;
+      line-height: 0.9;
+      color: var(--off);
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--cyan);
+    }
+
+    .hero-subtitle {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.75s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 3.5rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.95s forwards;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--bx);
+      color: var(--off);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border: 1px solid var(--bx);
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--bx-light);
+      border-color: var(--bx-light);
+    }
+    .btn-ghost {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .btn-ghost:hover { color: var(--off); border-color: var(--off); }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-circle {
+      width: min(85%, 520px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid rgba(125,212,207,0.2);
+      box-shadow:
+        0 0 80px rgba(125,212,207,0.12),
+        0 0 160px rgba(138,31,46,0.08),
+        inset 0 0 40px rgba(0,0,0,0.5);
+      opacity: 0;
+      animation: fadeIn 1.2s 0.4s forwards;
+    }
+    .hero-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: saturate(1.1) contrast(1.05);
+    }
+    /* Cyan glow ring */
+    .hero-circle::after {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      border: 1px solid rgba(125,212,207,0.15);
+      pointer-events: none;
+    }
+
+    /* Background accent */
+    #hero::after {
+      content: '';
+      position: absolute;
+      right: -10%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70vh;
+      height: 70vh;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(125,212,207,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeIn 1s 1.5s forwards;
+      z-index: 2;
+    }
+    .scroll-hint span { writing-mode: vertical-lr; }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      position: relative;
+      padding: 7rem 5rem;
+    }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--bx);
+      margin: 2rem 0;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--dark2);
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong {
+      color: var(--off);
+      font-weight: 400;
+    }
+    .about-stat {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2.5rem;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--cyan);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-img-wrap img {
+      filter: saturate(0.8) contrast(1.1);
+      transition: filter 0.5s, transform 0.5s;
+    }
+    .about-img-wrap:hover img {
+      filter: saturate(1.1) contrast(1.05);
+      transform: scale(1.03);
+    }
+    .about-img-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(125,212,207,0.08), rgba(138,31,46,0.12));
+      z-index: 1;
+      pointer-events: none;
+    }
+    /* Decorative frame */
+    .about-img-wrap::after {
+      content: '';
+      position: absolute;
+      top: 12px; left: 12px; right: -12px; bottom: -12px;
+      border: 1px solid rgba(125,212,207,0.2);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ── MUSIC ── */
+    #music {
+      background: var(--dark);
+      text-align: center;
+    }
+    #music .section-label,
+    #music .section-title { text-align: center; }
+    #music .divider { margin: 2rem auto; }
+
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 4rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .music-card {
+      background: var(--dark2);
+      padding: 2.5rem 2rem;
+      text-align: left;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .music-card:hover { background: var(--dark3); }
+    .music-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--bx);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .music-card:hover::before { transform: scaleX(1); }
+    .mc-year {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .mc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .mc-type {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .bandcamp-cta {
+      margin-top: 4rem;
+    }
+    .bandcamp-cta p {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .btn-bandcamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 2.5rem;
+      border: 1px solid var(--cyan-dim);
+      color: var(--cyan);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .btn-bandcamp:hover {
+      background: var(--cyan);
+      color: var(--dark);
+      border-color: var(--cyan);
+    }
+    .btn-bandcamp svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ── GALLERY ── */
+    #gallery {
+      background: var(--dark2);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 4px;
+      margin-top: 4rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+      background: var(--dark3);
+      min-height: 280px;
+    }
+    .gallery-item:first-child {
+      grid-row: 1 / 3;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.7);
+      transition: filter 0.5s, transform 0.6s;
+    }
+    .gallery-item:hover img {
+      filter: saturate(1.1);
+      transform: scale(1.05);
+    }
+    /* Placeholder for missing images */
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--dark3);
+      color: var(--muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .gallery-item:hover .gallery-placeholder {
+      border-color: rgba(125,212,207,0.2);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--dark);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-info p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+    .contact-row {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .contact-row-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      min-width: 80px;
+    }
+    .contact-row-val {
+      font-size: 0.85rem;
+      color: var(--off);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .form-group label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--off);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--cyan-dim);
+    }
+    .form-group textarea { min-height: 120px; }
+    .btn-send {
+      align-self: flex-start;
+      padding: 0.9rem 2.5rem;
+      background: var(--bx);
+      color: var(--off);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      border: 1px solid var(--bx);
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      cursor: crosshair;
+    }
+    .btn-send:hover {
+      background: transparent;
+      color: var(--bx-light);
+      border-color: var(--bx-light);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark2);
+      padding: 2.5rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-transform: lowercase;
+    }
+    .footer-copy {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      50%       { opacity: 0.4; transform: scaleY(0.5); transform-origin: top; }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+
+      #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+      .hero-left { padding: 6rem 2rem 2rem; }
+      .hero-right { padding: 2rem; }
+      .hero-circle { width: 70vw; }
+
+      #about { grid-template-columns: 1fr; padding: 4rem 2rem; gap: 3rem; }
+      section { padding: 5rem 2rem; }
+
+      .music-grid { grid-template-columns: 1fr; }
+
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-row: auto; }
+
+      #contact { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+
+      footer { flex-direction: column; gap: 1rem; padding: 2rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#hero">eauphil</a>
+    <ul class="nav-links">
+      <li><a href="#about">Band</a></li>
+      <li><a href="#music">Musik</a></li>
+      <li><a href="#gallery">Galerie</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-tag">Modern Jazz · Hannover</p>
+      <h1 class="hero-title">eau<em>phil</em></h1>
+      <p class="hero-subtitle">Vier Musiker — ein Klang</p>
+      <div class="hero-cta">
+        <a href="#music" class="btn-primary">Unsere Musik</a>
+        <a href="#contact" class="btn-ghost">Kontakt aufnehmen</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-circle">
+        <!-- Ersetze "eauphil.jpg" durch deinen tatsächlichen Dateinamen -->
+        <img src="eauphil.jpg" alt="eauphil Band" />
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-text reveal">
+      <p class="section-label">Über uns</p>
+      <h2 class="section-title">Wo Jazz<br/>auf Gegenwart trifft</h2>
+      <div class="divider"></div>
+      <p>
+        <strong>eauphil</strong> ist ein vierköpfiges Jazzkollektiv aus Hannover.
+        Unser Sound bewegt sich zwischen klanglicher Offenheit und strukturierter Intensität —
+        moderner Jazz, der atmet, fragt und überrascht.
+      </p>
+      <p>
+        Inspiriert von Klängen jenseits der Schubladen verbinden wir
+        improvisatorische Freiheit mit kompositorischer Präzision.
+        Jede Probe, jedes Konzert ist ein Gespräch unter Freunden —
+        und einer Bühne für neue Ideen.
+      </p>
+      <div class="about-stat">
+        <div class="stat-item">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Musiker</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Improvisationen</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">1</div>
+          <div class="stat-label">Klang</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal">
+      <div class="about-img-wrap">
+        <img src="eauphil.jpg" alt="eauphil" />
+      </div>
+    </div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="music">
+    <p class="section-label reveal">Musik</p>
+    <h2 class="section-title reveal">Unsere Releases</h2>
+    <div class="divider" style="margin-left:auto;margin-right:auto;" ></div>
+
+    <div class="music-grid reveal">
+      <div class="music-card">
+        <p class="mc-year">Demnächst</p>
+        <h3 class="mc-title">Erstes Album</h3>
+        <p class="mc-type">LP · In Vorbereitung</p>
+      </div>
+      <div class="music-card">
+        <p class="mc-year">Demnächst</p>
+        <h3 class="mc-title">EP No. 1</h3>
+        <p class="mc-type">EP · In Vorbereitung</p>
+      </div>
+      <div class="music-card">
+        <p class="mc-year">Live</p>
+        <h3 class="mc-title">Konzerte &amp; Sessions</h3>
+        <p class="mc-type">Live · Hannover &amp; mehr</p>
+      </div>
+    </div>
+
+    <div class="bandcamp-cta reveal">
+      <p>Hört uns auf Bandcamp — alle Releases, Downloads &amp; mehr.</p>
+      <!-- Ersetze den href mit eurem echten Bandcamp-Link -->
+      <a href="https://eauphil.bandcamp.com" target="_blank" class="btn-bandcamp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/>
+        </svg>
+        Auf Bandcamp anhören
+      </a>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <p class="section-label">Galerie</p>
+    <h2 class="section-title reveal">Bilder</h2>
+    <div class="divider"></div>
+
+    <div class="gallery-grid reveal">
+      <div class="gallery-item">
+        <img src="eauphil.jpg" alt="eauphil Band" />
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Foto 2</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Foto 3</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Foto 4</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Foto 5</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-info reveal">
+      <p class="section-label">Kontakt</p>
+      <h2 class="section-title">Schreib<br/>uns.</h2>
+      <div class="divider"></div>
+      <p>
+        Booking, Kollaborationen oder einfach Hallo?
+        Wir freuen uns über jede Nachricht.
+      </p>
+      <div class="contact-detail">
+        <div class="contact-row">
+          <span class="contact-row-label">E-Mail</span>
+          <!-- Ersetze mit eurer E-Mail-Adresse -->
+          <span class="contact-row-val">info@eauphil.com</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-label">Ort</span>
+          <span class="contact-row-val">Hannover, Deutschland</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-label">Booking</span>
+          <span class="contact-row-val">Anfragen per E-Mail</span>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Dein Name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" placeholder="deine@mail.de" required />
+      </div>
+      <div class="form-group">
+        <label for="msg">Nachricht</label>
+        <textarea id="msg" placeholder="Deine Nachricht …" required></textarea>
+      </div>
+      <button type="submit" class="btn-send">Nachricht senden</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">eauphil</span>
+    <span class="footer-copy">© 2025 eauphil · Modern Jazz · Hannover</span>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+    );
+    reveals.forEach(el => observer.observe(el));
+
+    // Contact form (mailto fallback)
+    function handleSubmit(e) {
+      e.preventDefault();
+      const name  = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const msg   = document.getElementById('msg').value;
+      // Ersetze info@eauphil.com mit eurer echten E-Mail
+      window.location.href =
+        `mailto:info@eauphil.com?subject=Nachricht von ${encodeURIComponent(name)}&body=${encodeURIComponent(msg)}%0A%0AAntwort an: ${encodeURIComponent(email)}`;
+    }
+
+    // Smooth nav highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 200) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === `#${current}`
+          ? 'var(--cyan)'
+          : '';
+      });
+    });
+  </script>
+</body>
+</html>
