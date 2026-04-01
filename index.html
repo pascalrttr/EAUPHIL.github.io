@@ -149,22 +149,34 @@
     .video-card:hover .play-label { opacity:1; color:var(--cyan); }
 
     /* ── BIO ── */
-    .bio-text { font-weight:200; font-size:clamp(15px,1.75vw,20px); line-height:1.85; max-width:680px; opacity:.88; }
+    .bio-grid {
+      display:grid; grid-template-columns:1fr 380px; gap:60px; align-items:start;
+    }
+    .bio-text { font-weight:200; font-size:clamp(15px,1.75vw,20px); line-height:1.85; opacity:.88; }
     .bio-text p + p { margin-top:1.4em; }
     .bio-text strong { font-weight:600; }
     .bio-text em { font-style:italic; color:var(--cyan); }
+    .bio-photo { position:relative; }
+    .bio-photo img {
+      width:100%; display:block;
+      filter:saturate(0.85) contrast(1.05);
+      transition:filter .4s;
+    }
+    .bio-photo:hover img { filter:saturate(1.1) contrast(1.02); }
+    .bio-photo::after {
+      content:''; position:absolute;
+      top:10px; left:10px; right:-10px; bottom:-10px;
+      border:1px solid rgba(125,212,207,.2);
+      pointer-events:none; z-index:-1;
+    }
+    @media (max-width:780px) {
+      .bio-grid { grid-template-columns:1fr; }
+      .bio-photo { display:none; }
+    }
 
     /* ── INSTAGRAM ── */
     #instagram { padding-bottom:0; }
-    .ig-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
-    .ig-box {
-      aspect-ratio:1; background:rgba(232,228,221,.05);
-      display:flex; align-items:center; justify-content:center;
-      font-size:11px; letter-spacing:.18em; text-transform:uppercase;
-      opacity:.28; font-weight:200; text-align:center; line-height:1.9;
-      transition:opacity .2s,background .2s;
-    }
-    .ig-box:hover { opacity:.65; background:rgba(125,212,207,.06); }
+    behold-widget { display:block; width:100%; }
 
     /* ── MUSIK ── */
     #musik { padding-top:0; }
@@ -236,7 +248,6 @@
       .k-grid { grid-template-columns:1fr; }
       footer { padding:22px; flex-direction:column; gap:6px; }
       .nl-form input { width:160px; }
-      .ig-grid { grid-template-columns:repeat(2,1fr); }
     }
   </style>
 </head>
@@ -246,7 +257,7 @@
 <div id="hero">
   <div class="tilt-card" id="heroCard">
     <div class="tilt-inner" id="heroInner">
-      <img class="tilt-photo" id="heroPhoto" src="20-DSCF2492-Edit.jpg" alt="eauphil live" />
+      <img class="tilt-photo" id="heroPhoto" src="44-DSCF2612-Edit-2.jpg" alt="eauphil" />
     </div>
     <div class="gloss"></div>
     <div class="hero-grad"></div>
@@ -302,9 +313,25 @@
 <!-- BIO -->
 <div class="wrap" id="bio">
   <div class="sec-label">Über uns</div>
-  <div class="bio-text">
-    <p>Die vier Musiker – <em>Schlagzeug, Kontrabass, Saxophon</em> und <em>E-Gitarre</em> –
-    erkunden in ihren modernen Kompositionen Rhythmus, Freiheit und kollektive Improvisation.</p>
+  <div class="bio-grid">
+    <div class="bio-text">
+      <p><strong>Eauphil</strong> verbindet die Tradition einer Jazz-Ausbildung mit der Energie
+      der Gegenwart. Anstatt dem traditionellen Schema „Thema-Solo-Thema" zu folgen, lassen
+      sie Stücke organisch wachsen, oft getragen von rhythmischen Rahmen, die dem Ensemble
+      gleichzeitig Orientierung und Spielraum geben.</p>
+      <p>Auf der Bühne bricht Eauphil bewusst mit den üblichen Erwartungen an ein Jazzkonzert.
+      Die Musik fordert Konzentration, öffnet Räume für Überraschung und schafft Momente, in
+      denen das Zusammenspiel Explosivität erreicht.</p>
+      <p>Die vier Musiker – <em>Schlagzeug, Kontrabass, Saxophon</em> und <em>E-Gitarre</em> –
+      erkunden in ihren modernen Kompositionen Rhythmus, Freiheit und kollektive Improvisation.</p>
+      <p>Das Publikum ist Zeuge einer Musik, die sich am eigenen Nerv der Musiker orientiert –
+      stets zwischen Kontrolle und Loslassen, Spannung und Freiheit.</p>
+      <p>Eauphil ist ein Ensemble, das nicht nur Musik spielt, sondern sie im Moment erschafft –
+      ein Statement für Moderne, aber noch immer in der Denktradition des Jazz.</p>
+    </div>
+    <div class="bio-photo">
+      <img src="20-DSCF2492-Edit.jpg" alt="eauphil live" />
+    </div>
   </div>
 </div>
 
@@ -313,22 +340,8 @@
 <!-- INSTAGRAM -->
 <div class="wrap" id="instagram">
   <div class="sec-label">Instagram</div>
-  <!--
-    FEED EINRICHTEN (kostenlos über behold.so):
-    1. https://behold.so registrieren
-    2. @eauphil_music verbinden
-    3. Widget-Code einfügen und den ig-grid Block unten löschen:
-       <script src="https://w.behold.so/widget.js" type="module"><\/script>
-       <behold-widget feed-id="DEINE_ID"></behold-widget>
-  -->
-  <div class="ig-grid">
-    <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener" class="ig-box">Instagram<br>öffnen →</a>
-    <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener" class="ig-box">@eauphil<br>_music</a>
-    <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener" class="ig-box">Fotos &amp;<br>Videos</a>
-    <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener" class="ig-box">Jetzt<br>folgen →</a>
-    <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener" class="ig-box">Live<br>Shows</a>
-    <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener" class="ig-box">Modern<br>Jazz</a>
-  </div>
+  <script src="https://w.behold.so/widget.js" type="module"></script>
+  <behold-widget feed-id="AFtPOB4Q5lNtS7ly5dHR"></behold-widget>
 </div>
 
 <div class="divider"></div>
@@ -357,7 +370,7 @@
   <div class="k-grid">
     <div class="k-block">
       <h3>Allgemein &amp; Booking</h3>
-      <a href="mailto:eauphil@web.de">eauphil@web.de</a>
+      <a href="/cdn-cgi/l/email-protection#54313521243c3d38142331367a3031"><span class="__cf_email__" data-cfemail="2f4a4e5a5f4746436f584a4d014b4a">[email&#160;protected]</span></a>
 
       <div class="nl-wrap">
         <p class="nl-label-c">Newsletter</p>
@@ -385,7 +398,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TILT ── */
 function makeTilt(cardId, innerId, photoId, tiltAmt, parAmt) {
   var card  = document.getElementById(cardId);
@@ -422,14 +435,4 @@ document.getElementById('nlForm').addEventListener('submit', function(e) {
     body:JSON.stringify({email:email})
   }).then(function(r) {
     if (r.ok) {
-      ok.classList.add('show');
-      document.getElementById('nlEmail').value = '';
-    }
-  }).catch(function() {
-    ok.textContent = 'Fehler — bitte per E-Mail melden.';
-    ok.classList.add('show');
-  });
-});
-</script>
-</body>
-</html>
+      ok
