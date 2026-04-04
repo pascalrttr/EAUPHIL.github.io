@@ -148,7 +148,107 @@
     }
     .video-card:hover .play-label { opacity:1; color:var(--cyan); }
 
-    /* ── BIO ── */
+    /* ── ANIMATION STRIP ── */
+    .anim-strip {
+      position:relative; width:100%; height:40vh; overflow:hidden;
+    }
+    .anim-strip video {
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.55;
+    }
+    .anim-strip::before {
+      content:''; position:absolute; inset:0; z-index:1;
+      background:linear-gradient(to bottom,
+        var(--black) 0%, transparent 20%, transparent 80%, var(--black) 100%);
+    }
+    .anim-strip::after {
+      content:'PLING'; position:absolute; inset:0; z-index:2;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Cormorant Garamond',serif; font-size:clamp(5rem,14vw,12rem);
+      font-weight:300; letter-spacing:0.3em; color:rgba(232,228,221,.07);
+      pointer-events:none;
+    }
+
+    /* ── RELEASES ── */
+    #releases { padding-top:66px; }
+    .release-card {
+      display:grid; grid-template-columns:260px 1fr; gap:52px; align-items:center;
+    }
+    .release-cover {
+      position:relative; width:260px; height:260px; flex-shrink:0;
+    }
+    .release-cover .tilt-inner { border-radius:0; }
+    .release-cover .tilt-photo {
+      object-position:center center;
+    }
+    .release-cover::after {
+      content:''; position:absolute;
+      top:8px; left:8px; right:-8px; bottom:-8px;
+      border:1px solid rgba(125,212,207,.18);
+      pointer-events:none; z-index:-1;
+    }
+    .release-info { display:flex; flex-direction:column; gap:20px; }
+    .release-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2.2rem,5vw,3.8rem); font-weight:300; line-height:1;
+      letter-spacing:0.05em;
+    }
+    .release-meta {
+      font-size:10px; letter-spacing:.28em; text-transform:uppercase;
+      color:var(--muted,rgba(232,228,221,.45)); opacity:.6;
+    }
+
+    /* Custom audio player */
+    .audio-player {
+      display:flex; flex-direction:column; gap:10px;
+      background:rgba(232,228,221,.04);
+      border:1px solid rgba(232,228,221,.08);
+      padding:18px 22px;
+      max-width:420px;
+    }
+    .ap-controls { display:flex; align-items:center; gap:16px; }
+    .ap-play {
+      width:40px; height:40px; border-radius:50%; flex-shrink:0;
+      border:1px solid rgba(125,212,207,.5);
+      background:transparent;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition:background .2s, border-color .2s;
+    }
+    .ap-play:hover { background:rgba(125,212,207,.15); border-color:var(--cyan); }
+    .ap-play svg { width:14px; height:14px; fill:var(--cyan); margin-left:2px; }
+    .ap-play.playing svg { margin-left:0; }
+    .ap-time {
+      font-size:11px; letter-spacing:.12em; color:rgba(232,228,221,.4);
+      white-space:nowrap; min-width:80px;
+    }
+    .ap-track-name {
+      font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+      color:rgba(232,228,221,.55); flex:1; overflow:hidden;
+      text-overflow:ellipsis; white-space:nowrap;
+    }
+    .ap-progress-wrap {
+      position:relative; height:2px; background:rgba(232,228,221,.1); cursor:pointer;
+    }
+    .ap-progress-fill {
+      height:100%; background:var(--cyan); width:0%; transition:width .1s linear;
+      pointer-events:none;
+    }
+    .ap-progress-wrap:hover .ap-progress-fill { background:#9adbd6; }
+
+    .release-dl {
+      display:inline-flex; align-items:center; gap:10px;
+      border:1px solid rgba(138,31,46,.6); padding:11px 22px;
+      font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--off); font-weight:600; align-self:flex-start;
+      transition:background .2s, border-color .2s;
+    }
+    .release-dl:hover { background:var(--bx); border-color:var(--bx); }
+    .release-dl svg { width:13px; height:13px; fill:currentColor; }
+
+    @media (max-width:680px) {
+      .release-card { grid-template-columns:1fr; }
+      .release-cover { width:100%; height:auto; aspect-ratio:1; }
+    }
     .bio-grid {
       display:grid; grid-template-columns:1fr 380px; gap:60px; align-items:start;
     }
@@ -323,9 +423,62 @@
   </a>
 </div>
 
-<div class="divider" style="margin-top:88px;"></div>
+<!-- ANIMATION STRIP -->
+<div class="anim-strip">
+  <video autoplay muted loop playsinline>
+    <source src="Animation_Kalle_02.mp4" type="video/mp4" />
+  </video>
+</div>
 
-<!-- BIO -->
+<!-- RELEASES -->
+<div class="wrap" id="releases">
+  <div class="sec-label">Releases</div>
+  <div class="release-card">
+
+    <!-- Cover mit Tilt -->
+    <div class="release-cover tilt-card" id="coverCard">
+      <div class="tilt-inner" id="coverInner">
+        <img class="tilt-photo" id="coverPhoto"
+             src="EAUPHIL_Pling_1400.jpg" alt="Pling Cover" />
+      </div>
+      <div class="gloss"></div>
+    </div>
+
+    <!-- Info + Player -->
+    <div class="release-info">
+      <div>
+        <p class="release-meta">eauphil · 2025 · Single</p>
+        <h2 class="release-title">Pling</h2>
+      </div>
+
+      <div class="audio-player" id="aplayer">
+        <div class="ap-controls">
+          <button class="ap-play" id="apPlayBtn" aria-label="Play/Pause">
+            <svg id="apPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <span class="ap-track-name">Pling</span>
+          <span class="ap-time" id="apTime">0:00 / 0:00</span>
+        </div>
+        <div class="ap-progress-wrap" id="apBar">
+          <div class="ap-progress-fill" id="apFill"></div>
+        </div>
+        <audio id="apAudio" preload="none">
+          <source src="Pling.mp3" type="audio/mpeg" />
+        </audio>
+      </div>
+
+      <a class="release-dl" href="https://eauphil.bandcamp.com/track/pling" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+        Auf Bandcamp
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
 <div class="wrap" id="bio">
   <div class="sec-label">Über uns</div>
   <div class="bio-grid">
@@ -388,7 +541,7 @@
   <div class="k-grid">
     <div class="k-block">
       <h3>Allgemein &amp; Booking</h3>
-      <a href="mailto:eauphil@web.de">eauphil@web.de</a>
+      <a href="/cdn-cgi/l/email-protection#06636773766e6f6a46716364286263"><span class="__cf_email__" data-cfemail="4d282c383d2524210d3a282f632928">[email&#160;protected]</span></a>
     </div>
     <div class="k-block">
       <h3>Instagram</h3>
@@ -407,7 +560,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TILT ── */
 function makeTilt(cardId, innerId, photoId, tiltAmt, parAmt) {
   var card  = document.getElementById(cardId);
@@ -432,6 +585,59 @@ function makeTilt(cardId, innerId, photoId, tiltAmt, parAmt) {
 makeTilt('heroCard',  'heroInner',  'heroPhoto',  9, 18);
 makeTilt('videoCard', 'videoInner', 'videoPhoto', 6, 12);
 makeTilt('bioCard',   'bioInner',   'bioPhoto',   6, 12);
+makeTilt('coverCard', 'coverInner', 'coverPhoto', 8, 14);
+
+/* ── AUDIO PLAYER ── */
+(function() {
+  var audio  = document.getElementById('apAudio');
+  var btn    = document.getElementById('apPlayBtn');
+  var icon   = document.getElementById('apPlayIcon');
+  var fill   = document.getElementById('apFill');
+  var bar    = document.getElementById('apBar');
+  var time   = document.getElementById('apTime');
+
+  var playPath  = 'M8 5v14l11-7z';
+  var pausePath = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+
+  function fmt(s) {
+    var m = Math.floor(s/60), sec = Math.floor(s%60);
+    return m+':'+(sec<10?'0':'')+sec;
+  }
+  function updateTime() {
+    var cur = isNaN(audio.currentTime)?0:audio.currentTime;
+    var dur = isNaN(audio.duration)?0:audio.duration;
+    time.textContent = fmt(cur)+' / '+fmt(dur);
+    fill.style.width = dur ? (cur/dur*100)+'%' : '0%';
+  }
+
+  btn.addEventListener('click', function() {
+    if (audio.paused) {
+      audio.play();
+      icon.querySelector('path').setAttribute('d', pausePath);
+      btn.classList.add('playing');
+    } else {
+      audio.pause();
+      icon.querySelector('path').setAttribute('d', playPath);
+      btn.classList.remove('playing');
+    }
+  });
+
+  audio.addEventListener('timeupdate', updateTime);
+  audio.addEventListener('loadedmetadata', updateTime);
+  audio.addEventListener('ended', function() {
+    icon.querySelector('path').setAttribute('d', playPath);
+    btn.classList.remove('playing');
+    fill.style.width = '0%';
+    audio.currentTime = 0;
+    updateTime();
+  });
+
+  bar.addEventListener('click', function(e) {
+    if (!audio.duration) return;
+    var r = bar.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+  });
+})();
 
 /* ── NEWSLETTER ── */
 document.getElementById('nlForm').addEventListener('submit', function(e) {
@@ -445,14 +651,4 @@ document.getElementById('nlForm').addEventListener('submit', function(e) {
     body:JSON.stringify({email:email})
   }).then(function(r) {
     if (r.ok) {
-      ok.classList.add('show');
-      document.getElementById('nlEmail').value = '';
-    }
-  }).catch(function() {
-    ok.textContent = 'Fehler — bitte per E-Mail melden.';
-    ok.classList.add('show');
-  });
-});
-</script>
-</body>
-</html>
+      o
