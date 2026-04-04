@@ -200,6 +200,13 @@
     .k-block a { font-weight:200; font-size:16px; opacity:.72; display:block; line-height:1.9; transition:opacity .2s,color .2s; }
     .k-block a:hover { opacity:1; color:var(--cyan); }
 
+    /* Newsletter in Hero */
+    .hero-nl { margin-top:1.4rem; }
+    .hero-nl-label {
+      font-size:10px; letter-spacing:.32em; text-transform:uppercase;
+      color:var(--cyan); font-weight:600; margin-bottom:10px;
+    }
+
     /* Newsletter */
     .nl-wrap { margin-top:2rem; }
     .nl-label-c { font-weight:600; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--cyan); margin-bottom:12px; }
@@ -273,10 +280,20 @@
   </nav>
 
   <div class="hero-bottom">
-    <p class="hero-tagline">
-      Modern Jazz · Hannover<br>
-      Schlagzeug · Kontrabass · Saxophon · E-Gitarre
-    </p>
+    <div>
+      <p class="hero-tagline">
+        Modern Jazz · Hannover<br>
+        Schlagzeug · Kontrabass · Saxophon · E-Gitarre
+      </p>
+      <div class="hero-nl">
+        <p class="hero-nl-label">Newsletter</p>
+        <form class="nl-form" id="nlForm">
+          <input type="email" placeholder="deine@email.de" id="nlEmail" autocomplete="off" />
+          <button type="submit">OK</button>
+        </form>
+        <span class="nl-ok" id="nlOk">Angemeldet — danke!</span>
+      </div>
+    </div>
     <div class="scroll-hint">
       <span>Scroll</span>
       <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h12z"/></svg>
@@ -287,11 +304,11 @@
 <!-- VIDEO -->
 <div class="wrap" id="video">
   <div class="sec-label">Live Video</div>
-  <a href="https://www.youtube.com/watch?v=ccQGraREtJs" target="_blank" rel="noopener"
+  <a href="https://www.youtube.com/watch?v=TdYoJe3tGbo" target="_blank" rel="noopener"
      class="video-card tilt-card" id="videoCard">
     <div class="tilt-inner" id="videoInner">
       <img class="tilt-photo" id="videoPhoto"
-           src="https://img.youtube.com/vi/ccQGraREtJs/maxresdefault.jpg"
+           src="20-DSCF2492-Edit.jpg"
            alt="eauphil Live Video"
            style="object-position:center center;" />
     </div>
@@ -371,16 +388,7 @@
   <div class="k-grid">
     <div class="k-block">
       <h3>Allgemein &amp; Booking</h3>
-      <a href="/cdn-cgi/l/email-protection#54313521243c3d38142331367a3031"><span class="__cf_email__" data-cfemail="2f4a4e5a5f4746436f584a4d014b4a">[email&#160;protected]</span></a>
-
-      <div class="nl-wrap">
-        <p class="nl-label-c">Newsletter</p>
-        <form class="nl-form" id="nlForm">
-          <input type="email" placeholder="deine@email.de" id="nlEmail" autocomplete="off" />
-          <button type="submit">OK</button>
-        </form>
-        <span class="nl-ok" id="nlOk">Angemeldet — danke!</span>
-      </div>
+      <a href="mailto:eauphil@web.de">eauphil@web.de</a>
     </div>
     <div class="k-block">
       <h3>Instagram</h3>
