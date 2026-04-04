@@ -15,18 +15,17 @@
     a { color:inherit; text-decoration:none; }
     ::selection { background:var(--cyan); color:var(--black); }
 
-    /* ── TILT ── */
+    /* ── TILT (nur Hero & Video) ── */
     .tilt-card { position:relative; overflow:hidden; perspective:900px; }
     .tilt-inner { position:absolute; inset:0; transform-style:preserve-3d; }
     .tilt-photo { position:absolute; inset:-8%; width:116%; height:116%; object-fit:cover; object-position:center 30%; display:block; }
-    .gloss { position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
-    .gloss::after {
-      content:''; position:absolute; top:-50%; left:-80%; width:55%; height:200%;
-      background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,.06) 44%, rgba(255,255,255,.18) 50%, rgba(255,255,255,.06) 56%, transparent 70%);
-      transform:skewX(-15deg); opacity:0;
+
+    /* ── WASSER-EFFEKT (nur Hero) ── */
+    #hero .water-canvas {
+      position:absolute; inset:0; z-index:2; pointer-events:none;
+      mix-blend-mode:screen; opacity:0; transition:opacity .6s;
     }
-    .tilt-card:hover .gloss::after { opacity:1; animation:gloss-go .8s cubic-bezier(.4,0,.2,1) forwards; }
-    @keyframes gloss-go { from{left:-80%} to{left:160%} }
+    #hero:hover .water-canvas { opacity:1; }
 
     /* ── HERO ── */
     #hero { position:relative; width:100vw; height:100dvh; }
@@ -94,7 +93,6 @@
     .anim-strip { position:relative; width:100%; height:40vh; overflow:hidden; }
     .anim-strip video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55; }
     .anim-strip::before { content:''; position:absolute; inset:0; z-index:1; background:linear-gradient(to bottom, var(--black) 0%, transparent 20%, transparent 80%, var(--black) 100%); }
-    .anim-strip-word { position:absolute; inset:0; z-index:2; display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:clamp(5rem,14vw,12rem); font-weight:300; letter-spacing:0.3em; color:rgba(232,228,221,.06); pointer-events:none; }
 
     /* ── RELEASES ── */
     #releases { padding-top:66px; }
@@ -180,7 +178,7 @@
     <div class="tilt-inner" id="heroInner">
       <img class="tilt-photo" id="heroPhoto" src="44-DSCF2612-Edit-2.jpg" alt="eauphil" />
     </div>
-    <div class="gloss"></div>
+    <canvas class="water-canvas" id="waterCanvas"></canvas>
     <div class="hero-grad"></div>
     <div class="hero-grain"></div>
   </div>
@@ -225,7 +223,6 @@
     <div class="tilt-inner" id="videoInner">
       <img class="tilt-photo" id="videoPhoto" src="20-DSCF2492-Edit.jpg" alt="eauphil Live" style="object-position:center center;" />
     </div>
-    <div class="gloss"></div>
     <div class="video-veil"></div>
     <div class="video-play">
       <div class="play-btn">
@@ -241,7 +238,6 @@
   <video autoplay muted loop playsinline>
     <source src="Animation_Kalle_02.mp4" type="video/mp4" />
   </video>
-  <div class="anim-strip-word">PLING</div>
 </div>
 
 <!-- RELEASES -->
@@ -249,11 +245,8 @@
   <div class="sec-label">Releases</div>
   <div class="release-card">
 
-    <div class="release-cover tilt-card" id="coverCard">
-      <div class="tilt-inner" id="coverInner">
-        <img class="tilt-photo" id="coverPhoto" src="EAUPHIL_Pling_1400.jpg" alt="Pling Cover" style="object-position:center center;" />
-      </div>
-      <div class="gloss"></div>
+    <div class="release-cover">
+      <img src="EAUPHIL_Pling_1400.jpg" alt="Pling Cover" style="width:100%;height:100%;object-fit:cover;display:block;" />
     </div>
 
     <div class="release-info">
@@ -300,11 +293,8 @@
       <p>Das Publikum ist Zeuge einer Musik, die sich am eigenen Nerv der Musiker orientiert – stets zwischen Kontrolle und Loslassen, Spannung und Freiheit.</p>
       <p>Eauphil ist ein Ensemble, das nicht nur Musik spielt, sondern sie im Moment erschafft – ein Statement für Moderne, aber noch immer in der Denktradition des Jazz.</p>
     </div>
-    <div class="bio-photo tilt-card" id="bioCard">
-      <div class="tilt-inner" id="bioInner">
-        <img class="tilt-photo" id="bioPhoto" src="eauphil.jpg" alt="eauphil" style="object-position:center 20%;" />
-      </div>
-      <div class="gloss"></div>
+    <div class="bio-photo">
+      <img src="eauphil.jpg" alt="eauphil" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;" />
     </div>
   </div>
 </div>
@@ -344,7 +334,7 @@
   <div class="k-grid">
     <div class="k-block">
       <h3>Allgemein &amp; Booking</h3>
-      <a href="mailto:eauphil@web.de">eauphil@web.de</a>
+      <a href="/cdn-cgi/l/email-protection#d4b1b5a1a4bcbdb894a3b1b6fab0b1"><span class="__cf_email__" data-cfemail="5a3f3b2f2a3233361a2d3f38743e3f">[email&#160;protected]</span></a>
     </div>
     <div class="k-block">
       <h3>Instagram</h3>
@@ -363,7 +353,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TILT ── */
 function makeTilt(cardId, innerId, photoId, tiltAmt, parAmt) {
   var card  = document.getElementById(cardId);
@@ -391,8 +381,87 @@ function makeTilt(cardId, innerId, photoId, tiltAmt, parAmt) {
 }
 makeTilt('heroCard',  'heroInner',  'heroPhoto',  9, 18);
 makeTilt('videoCard', 'videoInner', 'videoPhoto', 6, 12);
-makeTilt('coverCard', 'coverInner', 'coverPhoto', 8, 14);
-makeTilt('bioCard',   'bioInner',   'bioPhoto',   6, 12);
+
+/* ── WASSEROBERFLÄCHE (Hero) ── */
+(function() {
+  var hero   = document.getElementById('hero');
+  var canvas = document.getElementById('waterCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H, cols, rows, curr, prev, damping = 0.985;
+  var mouse = { x: -999, y: -999, down: false };
+
+  function resize() {
+    W = canvas.width  = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+    cols = Math.ceil(W / 3);
+    rows = Math.ceil(H / 3);
+    curr = new Float32Array(cols * rows);
+    prev = new Float32Array(cols * rows);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function drop(mx, my, r, str) {
+    var cx = Math.floor(mx / 3), cy = Math.floor(my / 3);
+    for (var y = cy - r; y <= cy + r; y++) {
+      for (var x = cx - r; x <= cx + r; x++) {
+        if (x < 0 || x >= cols || y < 0 || y >= rows) continue;
+        var d = Math.sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy));
+        if (d < r) curr[y*cols+x] += str * (1 - d/r);
+      }
+    }
+  }
+
+  hero.addEventListener('mousemove', function(e) {
+    var r = hero.getBoundingClientRect();
+    drop(e.clientX - r.left, e.clientY - r.top, 6, 180);
+  });
+  hero.addEventListener('mouseenter', function(e) {
+    var r = hero.getBoundingClientRect();
+    drop(e.clientX - r.left, e.clientY - r.top, 4, 100);
+  });
+
+  function step() {
+    for (var y = 1; y < rows-1; y++) {
+      for (var x = 1; x < cols-1; x++) {
+        var i = y*cols+x;
+        curr[i] = (
+          prev[(y-1)*cols+x] + prev[(y+1)*cols+x] +
+          prev[y*cols+(x-1)] + prev[y*cols+(x+1)]
+        ) / 2 - curr[i];
+        curr[i] *= damping;
+      }
+    }
+    var tmp = prev; prev = curr; curr = tmp;
+
+    ctx.clearRect(0, 0, W, H);
+    var id = ctx.createImageData(W, H);
+    var d  = id.data;
+    for (var y = 1; y < rows-1; y++) {
+      for (var x = 1; x < cols-1; x++) {
+        var h = prev[y*cols+x];
+        var dx = prev[y*cols+(x+1)] - prev[y*cols+(x-1)];
+        var dy = prev[(y+1)*cols+x] - prev[(y-1)*cols+x];
+        var bright = Math.min(Math.abs(h) * 1.5, 1);
+        var sx = x*3, sy = y*3;
+        for (var py = sy; py < sy+3 && py < H; py++) {
+          for (var px = sx; px < sx+3 && px < W; px++) {
+            var idx = (py*W+px)*4;
+            var v = Math.floor(bright * 38);
+            d[idx]   = Math.min(125 + v + Math.floor(dx*0.4), 255);
+            d[idx+1] = Math.min(212 + v + Math.floor(dy*0.2), 255);
+            d[idx+2] = Math.min(207 + v, 255);
+            d[idx+3] = Math.floor(bright * 90);
+          }
+        }
+      }
+    }
+    ctx.putImageData(id, 0, 0);
+    requestAnimationFrame(step);
+  }
+  step();
+})();
 
 /* ── AUDIO PLAYER ── */
 var audio = document.getElementById('apAudio');
@@ -444,12 +513,4 @@ document.getElementById('nlForm').addEventListener('submit', function(e) {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({ email: email })
   }).then(function(r) {
-    if (r.ok) { ok.classList.add('show'); document.getElementById('nlEmail').value = ''; }
-  }).catch(function() {
-    ok.textContent = 'Fehler — bitte per E-Mail melden.';
-    ok.classList.add('show');
-  });
-});
-</script>
-</body>
-</html>
+    if (
