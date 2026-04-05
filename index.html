@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eauphil — Modern Jazz</title>
+  <title>eauphil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;600&display=swap" rel="stylesheet" />
   <style>
@@ -48,9 +48,11 @@
       font-family:'Cormorant Garamond',serif; font-size:clamp(42px,7vw,88px); font-weight:300;
       letter-spacing:0.35em; color:var(--off); text-transform:uppercase; text-align:center; line-height:1;
     }
-    .hero-nav .socials { grid-column:3; display:flex; gap:24px; justify-content:flex-end; align-items:center; font-weight:300; font-size:13px; text-transform:uppercase; letter-spacing:.08em; padding-top:8px; }
+    .hero-nav .socials { grid-column:3; display:flex; gap:18px; justify-content:flex-end; align-items:center; font-weight:300; font-size:13px; text-transform:uppercase; letter-spacing:.08em; padding-top:8px; flex-wrap:wrap; }
     .hero-nav .socials a { opacity:.65; transition:opacity .2s,color .2s; }
     .hero-nav .socials a:hover { opacity:1; color:var(--cyan); }
+    .hero-nav .socials .epk-link { display:inline-flex; align-items:center; gap:6px; padding-left:14px; border-left:1px solid rgba(232,228,221,.2); }
+    .hero-nav .socials .epk-link svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
     .hero-bottom { position:absolute; bottom:42px; left:44px; right:44px; z-index:10; display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
     .hero-tagline { font-weight:200; font-size:clamp(11px,1.1vw,13px); letter-spacing:.22em; text-transform:uppercase; opacity:.5; line-height:2.2; }
     .hero-nl { margin-top:1.4rem; }
@@ -96,12 +98,29 @@
 
     /* ── RELEASES ── */
     #releases { padding-top:66px; }
-    .release-card { display:grid; grid-template-columns:260px 1fr; gap:52px; align-items:center; }
-    .release-cover { position:relative; width:260px; height:260px; flex-shrink:0; }
-    .release-cover::after { content:''; position:absolute; top:8px; left:8px; right:-8px; bottom:-8px; border:1px solid rgba(125,212,207,.18); pointer-events:none; z-index:-1; }
+    .release-card { display:grid; grid-template-columns:1fr 1fr; gap:52px; align-items:start; }
+    .release-covers { display:flex; gap:16px; }
+    .release-cover { position:relative; width:200px; height:200px; flex-shrink:0; }
+    .release-cover::after { content:''; position:absolute; top:7px; left:7px; right:-7px; bottom:-7px; border:1px solid rgba(125,212,207,.18); pointer-events:none; z-index:-1; }
+    .release-cover img { width:100%; height:100%; object-fit:cover; display:block; }
+    .release-cover-yt { position:relative; width:200px; height:200px; flex-shrink:0; display:block; overflow:hidden; }
+    .release-cover-yt img { width:100%; height:100%; object-fit:cover; display:block; filter:brightness(.82); transition:filter .3s; }
+    .release-cover-yt:hover img { filter:brightness(1); }
+    .release-cover-yt .yt-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(8,8,8,.3); transition:background .3s; }
+    .release-cover-yt:hover .yt-overlay { background:rgba(8,8,8,.08); }
+    .release-cover-yt .yt-btn { width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(232,228,221,.75); background:rgba(8,8,8,.5); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; transition:border-color .25s,background .25s; }
+    .release-cover-yt:hover .yt-btn { border-color:var(--cyan); background:rgba(125,212,207,.2); }
+    .release-cover-yt .yt-btn svg { width:14px; height:14px; fill:var(--off); margin-left:3px; transition:fill .25s; }
+    .release-cover-yt:hover .yt-btn svg { fill:var(--cyan); }
+    .release-cover-yt::after { content:''; position:absolute; top:7px; left:7px; right:-7px; bottom:-7px; border:1px solid rgba(125,212,207,.18); pointer-events:none; z-index:-1; }
     .release-info { display:flex; flex-direction:column; gap:20px; }
     .release-meta { font-size:10px; letter-spacing:.28em; text-transform:uppercase; opacity:.45; }
     .release-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,5vw,3.8rem); font-weight:300; line-height:1; letter-spacing:.05em; }
+    @media (max-width:780px) {
+      .release-card { grid-template-columns:1fr; }
+      .release-covers { flex-wrap:wrap; }
+      .release-cover, .release-cover-yt { width:calc(50% - 8px); height:auto; aspect-ratio:1; }
+    }
 
     /* Audio Player */
     .audio-player { display:flex; flex-direction:column; gap:12px; background:rgba(232,228,221,.04); border:1px solid rgba(232,228,221,.08); padding:18px 22px; max-width:420px; }
@@ -190,14 +209,18 @@
       <a href="https://www.instagram.com/eauphil_music/" target="_blank" rel="noopener">Instagram</a>
       <a href="https://www.youtube.com/@EAUPHIL" target="_blank" rel="noopener">YouTube</a>
       <a href="https://eauphil.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+      <a href="epk.pdf" download class="epk-link">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Presse / EPK
+      </a>
     </div>
   </nav>
 
   <div class="hero-bottom">
     <div>
       <p class="hero-tagline">
-        Modern Jazz · Hannover<br>
-        Schlagzeug · Kontrabass · Saxophon · E-Gitarre
+        Moderne Kompositionen<br>
+        <span style="opacity:.6;font-size:.9em;">Pascal Ritter · Gitarre &nbsp;·&nbsp; Lukas Merten · Sax &nbsp;·&nbsp; Ede Dorn · Kontrabass &nbsp;·&nbsp; Leo Weber · Schlagzeug</span>
       </p>
       <div class="hero-nl">
         <p class="hero-nl-label">Newsletter</p>
@@ -245,23 +268,26 @@
   <div class="sec-label">Releases</div>
   <div class="release-card">
 
-    <div class="release-cover">
-      <img src="EAUPHIL_Pling_1400.jpg" alt="Pling Cover" style="width:100%;height:100%;object-fit:cover;display:block;" />
+    <!-- Linke Spalte: Cover + YT Thumbnail -->
+    <div class="release-covers">
+      <div class="release-cover">
+        <img src="EAUPHIL_Pling_1400.jpg" alt="Pling Cover" />
+      </div>
+      <a class="release-cover-yt" href="https://www.youtube.com/watch?v=E0OcEcEXYMU" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/E0OcEcEXYMU/maxresdefault.jpg" alt="Pling Video" />
+        <div class="yt-overlay">
+          <div class="yt-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+      </a>
     </div>
 
+    <!-- Rechte Spalte: Info + Player + Links -->
     <div class="release-info">
       <div>
         <p class="release-meta">eauphil · 2025 · Single</p>
-        <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
-          <h2 class="release-title">Pling</h2>
-          <a href="https://www.youtube.com/watch?v=E0OcEcEXYMU" target="_blank" rel="noopener"
-             style="display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(232,228,221,.2);padding:7px 14px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.65;transition:opacity .2s,border-color .2s;white-space:nowrap;"
-             onmouseover="this.style.opacity='1';this.style.borderColor='var(--cyan)'"
-             onmouseout="this.style.opacity='.65';this.style.borderColor='rgba(232,228,221,.2)'">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-            Video
-          </a>
-        </div>
+        <h2 class="release-title">Pling</h2>
       </div>
 
       <div class="audio-player">
@@ -397,7 +423,7 @@ makeTilt('videoCard', 'videoInner', 'videoPhoto', 6, 12);
   var canvas = document.getElementById('waterCanvas');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
-  var W, H, cols, rows, curr, prev, damping = 0.985;
+  var W, H, cols, rows, curr, prev, damping = 0.94;
   var mouse = { x: -999, y: -999, down: false };
 
   function resize() {
@@ -424,11 +450,11 @@ makeTilt('videoCard', 'videoInner', 'videoPhoto', 6, 12);
 
   hero.addEventListener('mousemove', function(e) {
     var r = hero.getBoundingClientRect();
-    drop(e.clientX - r.left, e.clientY - r.top, 6, 180);
+    drop(e.clientX - r.left, e.clientY - r.top, 3, 120);
   });
   hero.addEventListener('mouseenter', function(e) {
     var r = hero.getBoundingClientRect();
-    drop(e.clientX - r.left, e.clientY - r.top, 4, 100);
+    drop(e.clientX - r.left, e.clientY - r.top, 2, 60);
   });
 
   function step() {
