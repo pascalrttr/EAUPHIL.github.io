@@ -136,6 +136,11 @@
     .release-dl { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(138,31,46,.6); padding:11px 22px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--off); font-weight:600; align-self:flex-start; transition:background .2s,border-color .2s; }
     .release-dl:hover { background:var(--bx); border-color:var(--bx); }
     .release-dl svg { width:13px; height:13px; fill:currentColor; }
+    .release-dl-mp3 { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(125,212,207,.35); padding:11px 22px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); font-weight:600; align-self:flex-start; transition:background .2s,border-color .2s,color .2s; }
+    .release-dl-mp3:hover { background:var(--cyan); color:var(--black); border-color:var(--cyan); }
+    .release-dl-mp3 svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .release-btns { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .release-separator { height:1px; background:rgba(232,228,221,.07); margin:44px 0; }
 
     /* ── BIO ── */
     .bio-grid { display:grid; grid-template-columns:1fr 380px; gap:60px; align-items:start; }
@@ -241,7 +246,7 @@
 <!-- VIDEO -->
 <div class="wrap" id="video">
   <div class="sec-label">Live Video</div>
-  <a href="https://www.youtube.com/watch?v=TdYoJe3tGbo" target="_blank" rel="noopener"
+  <a href="https://www.youtube.com/watch?v=EQF2H7eCM-0" target="_blank" rel="noopener"
      class="video-card tilt-card" id="videoCard">
     <div class="tilt-inner" id="videoInner">
       <img class="tilt-photo" id="videoPhoto" src="20-DSCF2492-Edit.jpg" alt="eauphil Live" style="object-position:center center;" />
@@ -286,30 +291,88 @@
     <!-- Rechte Spalte: Info + Player + Links -->
     <div class="release-info">
       <div>
-        <p class="release-meta">eauphil · 2025 · Single</p>
+        <p class="release-meta">eauphil · 2024 · Single</p>
         <h2 class="release-title">Pling</h2>
       </div>
 
       <div class="audio-player">
-        <audio id="apAudio" preload="metadata">
+        <audio id="apAudio1" preload="metadata">
           <source src="Pling.mp3" type="audio/mpeg" />
         </audio>
         <div class="ap-controls">
-          <button class="ap-play-btn" id="apBtn" aria-label="Play/Pause">
-            <svg viewBox="0 0 24 24"><path id="apIcon" d="M8 5v14l11-7z"/></svg>
+          <button class="ap-play-btn" id="apBtn1" aria-label="Play/Pause">
+            <svg viewBox="0 0 24 24"><path id="apIcon1" d="M8 5v14l11-7z"/></svg>
           </button>
           <span class="ap-track">Pling</span>
-          <span class="ap-time" id="apTime">0:00 / 0:00</span>
+          <span class="ap-time" id="apTime1">0:00 / 0:00</span>
         </div>
-        <div class="ap-bar" id="apBar">
-          <div class="ap-fill" id="apFill"></div>
+        <div class="ap-bar" id="apBar1">
+          <div class="ap-fill" id="apFill1"></div>
         </div>
       </div>
 
-      <a class="release-dl" href="https://eauphil.bandcamp.com/track/pling" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
-        Auf Bandcamp
+      <div class="release-btns">
+        <a class="release-dl" href="https://eauphil.bandcamp.com/track/pling" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+          Bandcamp
+        </a>
+        <a class="release-dl-mp3" href="Pling.mp3" download>
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Free Download
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Trennlinie -->
+  <div class="release-separator"></div>
+
+  <!-- MONSTREA -->
+  <div class="release-card">
+
+    <div class="release-covers">
+      <div class="release-cover">
+        <img src="EAUPHIL_live_rampe_v3_1400.jpg" alt="Monstrea Cover" />
+      </div>
+      <a class="release-cover-yt" href="https://www.youtube.com/watch?v=EQF2H7eCM-0" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/EQF2H7eCM-0/maxresdefault.jpg" alt="Monstrea Video" />
+        <div class="yt-overlay">
+          <div class="yt-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </a>
+    </div>
+
+    <div class="release-info">
+      <div>
+        <p class="release-meta">eauphil · 2025 · Live Single</p>
+        <h2 class="release-title">Monstrea</h2>
+      </div>
+
+      <div class="audio-player">
+        <audio id="apAudio2" preload="metadata">
+          <source src="Monstrea_LIVE_MASTER__V3_.mp3" type="audio/mpeg" />
+        </audio>
+        <div class="ap-controls">
+          <button class="ap-play-btn" id="apBtn2" aria-label="Play/Pause">
+            <svg viewBox="0 0 24 24"><path id="apIcon2" d="M8 5v14l11-7z"/></svg>
+          </button>
+          <span class="ap-track">Monstrea</span>
+          <span class="ap-time" id="apTime2">0:00 / 0:00</span>
+        </div>
+        <div class="ap-bar" id="apBar2">
+          <div class="ap-fill" id="apFill2"></div>
+        </div>
+      </div>
+
+      <div class="release-btns">
+        <a class="release-dl-mp3" href="Monstrea_LIVE_MASTER__V3_.mp3" download>
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Free Download
+        </a>
+      </div>
     </div>
 
   </div>
@@ -498,45 +561,44 @@ makeTilt('videoCard', 'videoInner', 'videoPhoto', 6, 12);
   step();
 })();
 
-/* ── AUDIO PLAYER ── */
-var audio = document.getElementById('apAudio');
-var btn   = document.getElementById('apBtn');
-var icoEl = document.getElementById('apIcon');
-var fill  = document.getElementById('apFill');
-var bar   = document.getElementById('apBar');
-var tEl   = document.getElementById('apTime');
-
-if (audio && btn) {
+/* ── AUDIO PLAYERS ── */
+function makePlayer(audioId, btnId, iconId, fillId, barId, timeId) {
+  var audio = document.getElementById(audioId);
+  var btn   = document.getElementById(btnId);
+  var ico   = document.getElementById(iconId);
+  var fill  = document.getElementById(fillId);
+  var bar   = document.getElementById(barId);
+  var tEl   = document.getElementById(timeId);
+  if (!audio || !btn) return;
   function fmt(s) {
     if (!s || isNaN(s) || !isFinite(s)) return '0:00';
-    var m = Math.floor(s / 60), sec = Math.floor(s % 60);
-    return m + ':' + (sec < 10 ? '0' : '') + sec;
+    var m = Math.floor(s/60), sec = Math.floor(s%60);
+    return m+':'+(sec<10?'0':'')+sec;
   }
   function updateTime() {
-    tEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
-    fill.style.width = (audio.duration ? (audio.currentTime / audio.duration * 100) : 0) + '%';
+    tEl.textContent = fmt(audio.currentTime)+' / '+fmt(audio.duration);
+    fill.style.width = (audio.duration ? (audio.currentTime/audio.duration*100) : 0)+'%';
   }
   function setPlaying(on) {
-    icoEl.setAttribute('d', on ? 'M6 19h4V5H6v14zm8-14v14h4V5h-4z' : 'M8 5v14l11-7z');
+    ico.setAttribute('d', on ? 'M6 19h4V5H6v14zm8-14v14h4V5h-4z' : 'M8 5v14l11-7z');
     btn.style.borderColor = on ? 'var(--cyan)' : '';
   }
   btn.addEventListener('click', function() {
     if (audio.paused) {
-      audio.play().then(function() { setPlaying(true); }).catch(function(e) { console.warn('Audio:', e); });
-    } else {
-      audio.pause();
-      setPlaying(false);
-    }
+      audio.play().then(function() { setPlaying(true); }).catch(function(e) { console.warn(e); });
+    } else { audio.pause(); setPlaying(false); }
   });
   audio.addEventListener('timeupdate', updateTime);
   audio.addEventListener('loadedmetadata', updateTime);
-  audio.addEventListener('ended', function() { setPlaying(false); audio.currentTime = 0; updateTime(); });
+  audio.addEventListener('ended', function() { setPlaying(false); audio.currentTime=0; updateTime(); });
   bar.addEventListener('click', function(e) {
     if (!audio.duration) return;
     var r = bar.getBoundingClientRect();
-    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+    audio.currentTime = ((e.clientX-r.left)/r.width)*audio.duration;
   });
 }
+makePlayer('apAudio1','apBtn1','apIcon1','apFill1','apBar1','apTime1');
+makePlayer('apAudio2','apBtn2','apIcon2','apFill2','apBar2','apTime2');
 
 /* ── NEWSLETTER ── */
 document.getElementById('nlForm').addEventListener('submit', function(e) {
