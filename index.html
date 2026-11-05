@@ -281,6 +281,100 @@
 <!-- RELEASES -->
 <div class="wrap" id="releases">
   <div class="sec-label">Releases</div>
+  <!-- CHOPSTICKS -->
+  <div class="release-card">
+
+    <div class="release-covers">
+      <div class="release-cover">
+        <img src="Chopsticks.jpeg" alt="Chopsticks Cover" />
+      </div>
+    </div>
+
+    <div class="release-info">
+      <div>
+        <p class="release-meta">Live @ Hühnerstall · 2026 · Single</p>
+        <h2 class="release-title">Chopsticks</h2>
+      </div>
+
+      <div class="audio-player">
+        <audio id="apAudio4" preload="metadata">
+          <source src="Chopsticks.mp3" type="audio/mpeg" />
+        </audio>
+        <div class="ap-controls">
+          <button class="ap-play-btn" id="apBtn4" aria-label="Play Chopsticks">
+            <svg viewBox="0 0 24 24"><path id="apIcon4" d="M8 5v14l11-7z"/></svg>
+          </button>
+          <span class="ap-track">Chopsticks</span>
+          <span class="ap-time" id="apTime4">0:00 / 0:00</span>
+        </div>
+        <div class="ap-bar" id="apBar4">
+          <div class="ap-fill" id="apFill4"></div>
+        </div>
+      </div>
+
+      <div class="release-btns">
+        <a class="release-dl" href="https://eauphil.bandcamp.com" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+          Bandcamp
+        </a>
+        <a class="release-dl-mp3" href="Chopsticks.mp3" download>
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Free Download
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="release-separator"></div>
+
+  <!-- DTJ -->
+  <div class="release-card">
+
+    <div class="release-covers">
+      <div class="release-cover">
+        <img src="DTJ.jpeg" alt="DTJ Cover" />
+      </div>
+    </div>
+
+    <div class="release-info">
+      <div>
+        <p class="release-meta">Live @ Hühnerstall · 2026 · Single</p>
+        <h2 class="release-title">DTJ</h2>
+      </div>
+
+      <div class="audio-player">
+        <audio id="apAudio5" preload="metadata">
+          <source src="DTJ.mp3" type="audio/mpeg" />
+        </audio>
+        <div class="ap-controls">
+          <button class="ap-play-btn" id="apBtn5" aria-label="Play DTJ">
+            <svg viewBox="0 0 24 24"><path id="apIcon5" d="M8 5v14l11-7z"/></svg>
+          </button>
+          <span class="ap-track">DTJ</span>
+          <span class="ap-time" id="apTime5">0:00 / 0:00</span>
+        </div>
+        <div class="ap-bar" id="apBar5">
+          <div class="ap-fill" id="apFill5"></div>
+        </div>
+      </div>
+
+      <div class="release-btns">
+        <a class="release-dl" href="https://eauphil.bandcamp.com" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+          Bandcamp
+        </a>
+        <a class="release-dl-mp3" href="DTJ.mp3" download>
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Free Download
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="release-separator"></div>
+
   <!-- LIVE @ RAMPE -->
   <div class="release-card">
 
@@ -469,7 +563,7 @@
   <div class="k-grid">
     <div class="k-block">
       <h3>Allgemein &amp; Booking</h3>
-      <a href="/cdn-cgi/l/email-protection#d4b1b5a1a4bcbdb894a3b1b6fab0b1"><span class="__cf_email__" data-cfemail="5a3f3b2f2a3233361a2d3f38743e3f">[email&#160;protected]</span></a>
+      <a href="mailto:eauphil@web.de">eauphil@web.de</a>
     </div>
     <div class="k-block">
       <h3>Instagram</h3>
@@ -488,7 +582,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── TILT ── */
 function makeTilt(cardId, innerId, photoId, tiltAmt, parAmt) {
   var card  = document.getElementById(cardId);
@@ -625,6 +719,11 @@ function makePlayer(audioId, btnId, iconId, fillId, barId, timeId) {
       audio.play().then(function() { setPlaying(true); }).catch(function(e) { console.warn(e); });
     } else { audio.pause(); setPlaying(false); }
   });
+  // Es spielt immer nur ein Song: startet einer, pausieren alle anderen
+  audio.addEventListener('play', function() {
+    document.querySelectorAll('audio').forEach(function(a) { if (a !== audio) a.pause(); });
+  });
+  audio.addEventListener('pause', function() { setPlaying(false); });
   audio.addEventListener('timeupdate', updateTime);
   audio.addEventListener('loadedmetadata', updateTime);
   audio.addEventListener('ended', function() { setPlaying(false); audio.currentTime=0; updateTime(); });
@@ -637,6 +736,8 @@ function makePlayer(audioId, btnId, iconId, fillId, barId, timeId) {
 makePlayer('apAudio1','apBtn1','apIcon1','apFill1','apBar1','apTime1');
 makePlayer('apAudio2','apBtn2','apIcon2','apFill2','apBar2','apTime2');
 makePlayer('apAudio3','apBtn3','apIcon3','apFill3','apBar3','apTime3');
+makePlayer('apAudio4','apBtn4','apIcon4','apFill4','apBar4','apTime4');
+makePlayer('apAudio5','apBtn5','apIcon5','apFill5','apBar5','apTime5');
 
 /* ── NEWSLETTER ── */
 document.getElementById('nlForm').addEventListener('submit', function(e) {
